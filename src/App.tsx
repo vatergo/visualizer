@@ -3,16 +3,25 @@ import Plot from "react-plotly.js";
 import { usePlot } from "./hooks";
 
 function App() {
-  const { data } = usePlot();
+  const { data3D, data2D } = usePlot();
 
   return (
-    <Plot
-      data={data}
-      layout={{
-        title: "Проекция скважины",
-      }}
-      style={{ width: "100%", height: "100%" }}
-    />
+    <div className="content">
+      <Plot
+        className="plot"
+        data={data3D}
+        layout={{
+          title: "Проекция скважины",
+        }}
+      />
+      <Plot
+        className="plot"
+        data={data2D}
+        layout={{
+          title: "Проекция скважины",
+        }}
+      />
+    </div>
   );
 }
 

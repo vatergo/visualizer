@@ -3,13 +3,17 @@ import { Las } from "las-js";
 import path from "path";
 import { calculateCoordinates } from "./utils";
 
-export const usePlot = (): { data: Plotly.Data[] } => {
+export const usePlot = (): { data3D: Plotly.Data[]; data2D: Plotly.Data[] } => {
   const [points, setPoints] = useState<{ x: number; y: number; z: number }[]>(
     []
   );
 
   const readFile = useCallback(() => {
-    const las = new Las(path.join(__dirname, "../../../../../sample.las"));
+    // const las = new Las(path.join(__dirname, "../../../../../sample.las")); // Mac OS
+
+    const las = new Las(
+      path.join(__dirname, "../../../../../../../../public/sample.las") // local
+    );
 
     las.data().then((data) => {
       const points = data.map((item) =>
@@ -27,7 +31,7 @@ export const usePlot = (): { data: Plotly.Data[] } => {
   }, [readFile]);
 
   // Сбор данных для графика
-  const lineData: Plotly.Data = {
+  const lineData3D: Plotly.Data = {
     type: "scatter3d",
     mode: "lines+markers",
     x: points.map((p) => p.x),
@@ -37,5 +41,14 @@ export const usePlot = (): { data: Plotly.Data[] } => {
     marker: { size: 1 },
   };
 
-  return { data: [lineData] };
+  const lineData2D: Plotly.Data = {
+    type: "scatter",
+    mode: "lines+markers",
+    x: points.map((p) => p.x),
+    y: points.map((p) => p.y),
+    line: { color: "red", width: 2 },
+    marker: { size: 4 },
+  };
+
+  return { data3D: [lineData3D], data2D: [lineData2D] };
 };

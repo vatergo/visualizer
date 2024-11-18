@@ -4,3 +4,12 @@
   padding: 2rem;
   text-align: center;
 }
+
+.content {
+  display: flex;
+  flex-direction: row;
+}
+
+.plot {
+  height: 100%;
+}
